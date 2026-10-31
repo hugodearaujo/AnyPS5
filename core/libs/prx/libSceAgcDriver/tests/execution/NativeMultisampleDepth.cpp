@@ -956,7 +956,7 @@ void CheckPairedBufferOverwrite() {
     AgcDriverRegisterShader_nid_postfix(&header);
     std::unique_lock gpuLock(AgcDriver::GuestMemory::GpuMutex());
     TargetMemory warmup(65536u, true);
-    const auto context = SubmitDriverHtileClear(warmup.Address(), gpuLock);
+    const auto context = SubmitDriverHtileClear(warmup.Address(), gpuLock, false);
     const auto clear = [&] { ClearCachedTextures(context.device); ClearDepthSurfaces(context.device); };
     struct Cleanup { decltype(clear)& action; ~Cleanup() { action(); } } cleanup{clear};
     constexpr VkExtent2D extent{128u, 64u};
